@@ -25,6 +25,7 @@
 /* Begin PBXFileReference section */
 		383CAB5225AF903300A24A4D /* penrose */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = penrose; sourceTree = BUILT_PRODUCTS_DIR; };
 		383CAB5525AF903300A24A4D /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		38D0742925B24A97007F50B6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				383CAB5525AF903300A24A4D /* main.swift */,
+				38D0742925B24A97007F50B6 /* README.md */,
 			);
 			path = penrose;
 			sourceTree = "<group>";
