@@ -43,6 +43,7 @@
 		383CAB4925AF903300A24A4D = {
 			isa = PBXGroup;
 			children = (
+				38D0742925B24A97007F50B6 /* README.md */,
 				383CAB5425AF903300A24A4D /* penrose */,
 				383CAB5325AF903300A24A4D /* Products */,
 			);
@@ -60,7 +61,6 @@
 			isa = PBXGroup;
 			children = (
 				383CAB5525AF903300A24A4D /* main.swift */,
-				38D0742925B24A97007F50B6 /* README.md */,
 				38D0742A25B25031007F50B6 /* penrose_tiling.png */,
 			);
 			path = penrose;
