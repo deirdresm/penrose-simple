@@ -22,6 +22,6 @@ I'd initially used CGFloat, then found when I switched to Double, the number of 
 
     abs(lhs.x - rhs.x) < epsilon
 
-That way, numbers that are sufficiently similar will compare as equal, which helps when eliminating duplicate tiles.
+That way, numbers that are sufficiently similar will compare as equal, which helps when eliminating duplicate tiles. This dropped tiles to render from 2225 to 1731 for 5 generations.
 
 So that's in the latest commit.
