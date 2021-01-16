@@ -36,28 +36,40 @@ extension Array where Element : Equatable {
 
 struct Tile: Hashable {
     var tt:     TileShape // stores the int value of the tile shape
-    var x:      Double
-    var y:      Double
-    var angle:  Double
-    var size:   Double
+    var x:      CGFloat
+    var y:      CGFloat
+    var angle:  CGFloat
+    var size:   CGFloat
     
     public static func < (lhs: Tile, rhs: Tile) -> Bool {
-        return ((lhs.tt == rhs.tt) && (lhs.x == rhs.x) && (lhs.y == rhs.y) &&
-                    (lhs.angle == rhs.angle) && (lhs.size == rhs.size))
+        let epsilon: CGFloat = 0.00001 // because floating point comparisons bite
+        return ((lhs.tt == rhs.tt) &&
+                ((lhs.x < rhs.x) && (lhs.x - rhs.x) >= epsilon) &&
+                ((lhs.y < rhs.y) && (lhs.y - rhs.y) >= epsilon) &&
+                ((lhs.angle < rhs.angle) && (lhs.angle - rhs.angle) > epsilon) &&
+                ((lhs.size < rhs.size) && (lhs.size - rhs.size) >= epsilon))
     }
 
+    public static func == (lhs: Tile, rhs: Tile) -> Bool {
+        let epsilon: CGFloat = 0.00001
+        return ((lhs.tt == rhs.tt) &&
+                (abs(lhs.x - rhs.x) < epsilon) &&
+                (abs(lhs.y - rhs.y) < epsilon) &&
+                (abs(lhs.angle - rhs.angle) < epsilon) &&
+                (abs(lhs.size - rhs.size) < epsilon))
+    }
 }
 
-let goldenRatio = Double((1 + sqrt(5)) / 2.0) // golden ratio
-let theta = Double.pi / 5.0          // 36 degrees in radians
+let goldenRatio = CGFloat((1 + sqrt(5)) / 2.0) // golden ratio
+let theta = CGFloat.pi / 5.0          // 36 degrees in radians
 
 // create tiles around the origin
 func initialTiles(_ w: Int, _ h: Int) -> [Tile] {
     var initial = [Tile]()
 
     
-    for a in stride(from: Double.pi / 2.0 + theta, to: 3.0 * Double.pi, by: 2.0 * theta) {
-        let tile = Tile(tt: .kite, x: Double(w) / 2.0 , y: Double(h) / 2.0, angle: a, size: Double(w) / 2.5)
+    for a in stride(from: CGFloat.pi / 2.0 + theta, to: 3.0 * CGFloat.pi, by: 2.0 * theta) {
+        let tile = Tile(tt: .kite, x: CGFloat(w) / 2.0 , y: CGFloat(h) / 2.0, angle: a, size: CGFloat(w) / 2.5)
         initial.append(tile)
     }
     return initial
@@ -70,15 +82,15 @@ func deflateTiles(_ tiles: [Tile], _ gen: Int) -> [Tile] {
     var nextTiles = [Tile]()
     
     for tile in tiles {
-        var nx: Double
-        var ny: Double
-        let size: Double = tile.size / goldenRatio
+        var nx: CGFloat
+        var ny: CGFloat
+        let size: CGFloat = tile.size / goldenRatio
         let a = tile.angle
         
         if tile.tt == .dart {
             nextTiles.append(Tile(tt: TileShape.kite, x: tile.x, y: tile.y,
                                   angle: a + 5.0 * theta, size: size))
-            var sign: Double = 1.0
+            var sign: CGFloat = 1.0
             for _ in 0 ..< 2 {
                 let nangle = a - 4.0 * theta * sign
                 nx = tile.x + cos(nangle) * goldenRatio * tile.size
@@ -87,7 +99,7 @@ func deflateTiles(_ tiles: [Tile], _ gen: Int) -> [Tile] {
                 sign = sign * -1.0
             }
         } else {
-            var sign: Double = 1.0
+            var sign: CGFloat = 1.0
             for _ in 0 ..< 2 {
                 nextTiles.append(Tile(tt: TileShape.dart, x: tile.x, y: tile.y,
                                       angle: a - 4.0 * theta * sign, size: size))
@@ -110,7 +122,7 @@ func drawTiles(_ context: CGContext, _ tiles: [Tile]) -> CIImage {
     context.setStrokeColor(strokeColor)
 
     for tile in tiles {
-        let dist: [[Double]] = [[goldenRatio, goldenRatio, goldenRatio],
+        let dist: [[CGFloat]] = [[goldenRatio, goldenRatio, goldenRatio],
                                  [-goldenRatio, -1, -goldenRatio]]
         var angle = tile.angle - theta
         let shapePath = CGMutablePath()
